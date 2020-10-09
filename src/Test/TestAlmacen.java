@@ -41,10 +41,14 @@ public class TestAlmacen {
 			comercio.agregarLstArticulo("aceite", "6046202617466", 30);
 			comercio.agregarLstArticulo("huevos", "5701050395621", 30);
 			comercio.agregarLstArticulo("levadura", "7615596342361", 30);
-			comercio.agregarLstArticulo("levadura", "5575951290145", 30);
+			comercio.agregarLstArticulo("azucar", "5575951290145", 30);
 
-			// creo carrito
+			// creo carritos
 			comercio.agregarLstCarrito(LocalDate.now(), LocalTime.now(), cliente1);
+			comercio.agregarLstCarrito(LocalDate.now(), LocalTime.now(), cliente2);
+			comercio.agregarLstCarrito(LocalDate.now(), LocalTime.now(), cliente3);
+			comercio.agregarLstCarrito(LocalDate.now(), LocalTime.now(), cliente4);
+			
 
 			// agrego dia de retiro
 			comercio.agregarDiaRetiro(1, LocalTime.of(5, 30), LocalTime.of(18, 30), 1);
@@ -56,16 +60,15 @@ public class TestAlmacen {
 			comercio.traerCarritoId(1).agregarlstItemCarritoA(comercio.traerArticuloCod("4950671922148"), 2);
 			comercio.traerCarritoId(1).agregarlstItemCarritoA(comercio.traerArticuloCod("4950671922148"), 5);
 
-			
 			// agrego envio
 			comercio.traerCarritoId(1).nuevaEntrega(LocalDate.now(), false, LocalTime.now(), LocalTime.of(18, 30),
 					cliente1.getContacto().getUbicacion(), comercio.getContacto().getUbicacion(),
 					comercio.getCostoFijo(), comercio.getCostoPorKm());
-	
 
 			System.out.println();
 			System.out.println("Total carrito sin descuento: " + comercio.traerCarritoId(1).calcularTotalCarrito());
-			System.out.println("Descuento: "+ comercio.traerCarritoId(1).calcularDescuentoCarrito(LocalDate.now().getDayOfWeek().getValue(),
+			System.out.println("Descuento: "
+					+ comercio.traerCarritoId(1).calcularDescuentoCarrito(LocalDate.now().getDayOfWeek().getValue(),
 							comercio.getPorcentajeDescuentoDia(), comercio.getPorcentajeDescuentoEfectivo()));
 			System.out.println("Total carrito: " + comercio.traerCarritoId(1).totalAPagarCarrito());
 

@@ -97,18 +97,52 @@ public class Comercio extends Actor {
 		this.porcentajeDescuentoEfectivo = porcentajeDescuentoEfectivo;
 	}
 
-	public void agregarDiaRetiro( int diaSemana, LocalTime horaDesde, LocalTime horaHasta, int intervalo) {
-
-		lstDiaRetiro.add(new DiaRetiro( diaSemana, horaDesde, horaHasta, intervalo));
+	@Override
+	public String toString() {
+		return "Comercio [nombreComercio=" + nombreComercio + ", cuit=" + cuit + ", costoFijo=" + costoFijo
+				+ ", costoPorKm=" + costoPorKm + ", diaDescuento=" + diaDescuento + ", porcentajeDescuentoDia="
+				+ porcentajeDescuentoDia + ", porcentajeDescuentoEfectivo=" + porcentajeDescuentoEfectivo
+				+ ", lstDiaRetiro=" + lstDiaRetiro + ", lstCarrito=" + lstCarrito + ", lstArticulo=" + lstArticulo
+				+ ", Contacto=" + super.toString() + "]";
 	}
 
-	public void agregarLstCarrito(LocalDate fecha, LocalTime hora, Cliente cliente)
-			throws Exception {
-		lstCarrito.add(new Carrito(fecha, hora, cliente));
+	public ArrayList<Articulo> getLstArticulo() {
+		return lstArticulo;
+	}
+
+	public void setLstArticulo(ArrayList<Articulo> lstArticulo) {
+		this.lstArticulo = lstArticulo;
+	}
+
+	public ArrayList<Carrito> getLstCarrito() {
+		return lstCarrito;
+	}
+
+	public void setLstCarrito(ArrayList<Carrito> lstCarrito) {
+		this.lstCarrito = lstCarrito;
+	}
+
+	public void agregarDiaRetiro(int diaSemana, LocalTime horaDesde, LocalTime horaHasta, int intervalo) {
+
+		lstDiaRetiro.add(new DiaRetiro(idNuevo("diaRetiros"),diaSemana, horaDesde, horaHasta, intervalo));
 	}
 
 	public void agregarLstArticulo(String nombre, String codBarra, double precio) throws Exception {
-		lstArticulo.add(new Articulo(nombre, codBarra, precio));
+		lstArticulo.add(new Articulo(idNuevo("articulos"), nombre, codBarra, precio));
+	}
+
+	public boolean eliminarArticuloComercio(String codBarra) {
+		int i = 0;
+		boolean encontrado = false;
+
+		while (i < lstArticulo.size() && encontrado == false) {
+			if (lstArticulo.get(i).equals(codBarra)) {
+				lstArticulo.remove(i);
+				encontrado = true;
+			}
+			i++;
+		}
+		return encontrado;
 	}
 
 	public Articulo traerArticuloCod(String codBarra) {
@@ -125,6 +159,10 @@ public class Comercio extends Actor {
 		return traerArt;
 	}
 
+	public void agregarLstCarrito(LocalDate fecha, LocalTime hora, Cliente cliente) throws Exception {
+		lstCarrito.add(new Carrito(idNuevo("carritos"),fecha, hora, cliente));
+	}
+
 	public Carrito traerCarritoId(int id) {
 		Carrito traerCarrito = null;
 
@@ -136,28 +174,60 @@ public class Comercio extends Actor {
 		return traerCarrito;
 	}
 
-	@Override
-	public String toString() {
-		return "Comercio [nombreComercio=" + nombreComercio + ", cuit=" + cuit + ", costoFijo=" + costoFijo
-				+ ", costoPorKm=" + costoPorKm + ", diaDescuento=" + diaDescuento + ", porcentajeDescuentoDia="
-				+ porcentajeDescuentoDia + ", porcentajeDescuentoEfectivo=" + porcentajeDescuentoEfectivo
-				+ ", lstDiaRetiro=" + lstDiaRetiro + ", lstCarrito=" + lstCarrito + ", lstArticulo=" + lstArticulo
-				+ "]";
-	}
-
 	// Metodos para instanciar todas la clase relacionadas
 
 	public Cliente nuevoCliente(String email, String celular, double latitud, double longitud, String apellido,
 			String nombre, long dni, char genero) throws Exception {
 
-		return new Cliente(new Contacto(email, celular, new Ubicacion(latitud, longitud)), apellido, nombre, dni,
-				genero);
+		return new Cliente(new Contacto(email, celular, new Ubicacion(latitud, longitud)),
+				apellido, nombre, dni, genero);
 
-	}	
+	}
 
 	public Contacto nuevoContacto(String email, String celular, Ubicacion ubicacion) {
 		return new Contacto(email, celular, ubicacion);
 	}
 
-	
+	// METODO PARA CALCULAR ID A ARTICULOS, DIA DE RETIROS Y CARRITOS
+	public int idNuevo(String lista) {
+		int idNuevo = 1;
+		int i = 0;
+
+		if (lista.equalsIgnoreCase("articulos")) {
+			while (i < lstArticulo.size()) {
+
+				if (lstArticulo.get(i).getId() == idNuevo) {
+					idNuevo++;
+					i = -1;
+				}
+				i++;
+
+			}
+		}
+		if (lista.equalsIgnoreCase("carritos")) {
+			while (i < lstCarrito.size()) {
+
+				if (lstCarrito.get(i).getId() == idNuevo) {
+					idNuevo++;
+					i = -1;
+				}
+				i++;
+
+			}
+		}
+		if (lista.equalsIgnoreCase("diaRetiros")) {
+			while (i < lstDiaRetiro.size()) {
+
+				if (lstDiaRetiro.get(i).getId() == idNuevo) {
+					idNuevo++;
+					i = -1;
+				}
+				i++;
+
+			}
+		}
+
+		return idNuevo;
+	}
+
 }

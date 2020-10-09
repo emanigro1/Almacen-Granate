@@ -1,14 +1,13 @@
 package Carrito;
 
 public class Articulo {
-	static int idArtirulo=0;
 	private int id;
 	private String nombre;
 	private String codBarra;
 	private double precio;
 
-	public Articulo(String nombre, String codBarra, double precio) throws Exception { // {
-		this.id = ++idArtirulo;
+	public Articulo(int id, String nombre, String codBarra, double precio) throws Exception { // {
+		this.id = id;
 		this.nombre = nombre;
 		this.precio = precio;
 		this.setCodBarra(codBarra);
@@ -19,8 +18,8 @@ public class Articulo {
 		return id;
 	}
 
-	public void setId() {
-		this.id = ++idArtirulo;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getNombre() {
@@ -50,18 +49,18 @@ public class Articulo {
 		this.precio = precio;
 	}
 
-
-	/**		Validador de codigo de barras
+	/**
+	 * Validador de codigo de barras
 	 * 
-	 * @param codBarra		codigo de barras a verificar
-	 * @return boolean		si el codigo ingresado fue valido
+	 * @param codBarra codigo de barras a verificar
+	 * @return boolean si el codigo ingresado fue valido
 	 */
 	public boolean validarCodBarras(String codBarra) {
 		boolean valido;
 		// PARSEO EL STRING A UN ARRAY DE CHAR
 		String[] codigoString = codBarra.split("");
 		// INSTANCIO INT ARRAY CON LONGITUD DEL ULTIMO ARRAY CHAR
-		int[] codigoInt = new int[codigoString.length];		
+		int[] codigoInt = new int[codigoString.length];
 		int sumaPares = 0, sumaImpares = 0;
 
 		if (codBarra.length() == 13) {
@@ -74,12 +73,12 @@ public class Articulo {
 					sumaPares = sumaPares + codigoInt[i];
 				}
 				// SUMO LOS DIGITOS IMPARES
-				if (i % 2 == 1 ) {
+				if (i % 2 == 1) {
 					sumaImpares = sumaImpares + codigoInt[i];
 				}
 			}
 			int imparesParesSumados, contador = 0;
-			// SUMO Y MULTIPLICO POR 3  LAS SUMAS PARES E IMPARES
+			// SUMO Y MULTIPLICO POR 3 LAS SUMAS PARES E IMPARES
 			imparesParesSumados = sumaPares + sumaImpares * 3;
 
 			// CUENTO CUANTOS NUMEROS FALTAN PARA LLEGAR A SU SUPERIOR MULTIPLO DE 10
@@ -87,7 +86,8 @@ public class Articulo {
 				contador++;
 				imparesParesSumados++;
 			}
-			// SI LA DIFERENCIA ANTERIOR DA IGUAL AL ULTIMO DIGITO DE LA BARRA ENTONCES ES VALIDA
+			// SI LA DIFERENCIA ANTERIOR DA IGUAL AL ULTIMO DIGITO DE LA BARRA ENTONCES ES
+			// VALIDA
 			if (contador == codigoInt[12]) {
 				this.codBarra = codBarra;
 				valido = true;
@@ -95,37 +95,37 @@ public class Articulo {
 				System.out.println("Codigo invalido");
 				valido = false;
 			}
-				// LONGITUD INVALIDA
+			// LONGITUD INVALIDA
 		} else {
 			System.out.println("La longitud del codigo es invalida");
 			valido = false;
 		}
 		return valido;
 	}
-	
 
-	public boolean equals(Articulo articulo) {
-		boolean esIgual=false;
-		
-		if (id == articulo.getId() || codBarra == articulo.getCodBarra()) {	
-			esIgual = true;	
-		} 
+	public boolean equals(Articulo articulo) throws Exception {
+		boolean esIgual = false;
+		if (articulo == null) {
+			throw new Exception("Articulo inexistente en el comercio");
+		}
+		if (id == articulo.getId() || codBarra == articulo.getCodBarra()) {
+			esIgual = true;
+		}
 		return esIgual;
 	}
-	
 
 	public boolean equals(String codBarraN) {
-		boolean esIgual=false;
+		boolean esIgual = false;
 
 		if (codBarra.equals(codBarraN)) {
 			esIgual = true;
-		} 
+		}
 		return esIgual;
 	}
 
 	@Override
 	public String toString() {
-		return "Articulo [id=" + id + ", nombre=" + nombre + ", codBarra=" + codBarra + ", precio=" + precio + "]";
+		return "Articulo [id=" + id + ", nombre=" + nombre + ", codBarra=" + codBarra + ", precio=" + precio + "]\n";
 	}
 
 }

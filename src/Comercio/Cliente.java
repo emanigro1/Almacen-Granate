@@ -5,7 +5,7 @@ public class Cliente extends Actor{
 	private String nombre;
 	private long dni;
 	
-	public Cliente( Contacto contacto, String apellido, String nombre, long dni, char genero)throws Exception {
+	public Cliente(Contacto contacto, String apellido, String nombre, long dni, char genero)throws Exception {
 		super(contacto);
 		this.apellido = apellido;
 		this.nombre = nombre;
@@ -42,7 +42,8 @@ public class Cliente extends Actor{
 
 	@Override
 	public String toString() {
-		return "Cliente [apellido=" + apellido + ", nombre=" + nombre + ", dni=" + dni + "]";
+		return "Cliente [apellido=" + apellido + ", nombre=" + nombre + ", dni=" + dni + ", id=" + id + ", "
+				+ contacto + "]";
 	}
 	
 	

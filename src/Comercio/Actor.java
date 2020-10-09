@@ -3,12 +3,12 @@ package Comercio;
 import java.util.Objects;
 
 public abstract class Actor {
+	static int idActor=0;
 	protected int id;
 	protected Contacto contacto;
-	static int idActor=0;
+
 
 	public Actor(Contacto contacto) {
-		
 		this.id = ++idActor;
 		this.contacto = contacto;
 		
@@ -18,8 +18,8 @@ public abstract class Actor {
 		return id;
 	}
 
-	public void setId() {
-		this.id = ++idActor;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public Contacto getContacto() {
@@ -28,6 +28,11 @@ public abstract class Actor {
 
 	public void setContacto(Contacto contacto) {
 		this.contacto = contacto;
+	}
+
+	@Override
+	public String toString() {
+		return "Actor [id=" + id + ", " + contacto + "]";
 	}
 
 	protected boolean validarIdentificadorUnicoDNI(long identificador) {

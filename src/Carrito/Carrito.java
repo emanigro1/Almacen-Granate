@@ -7,8 +7,7 @@ import java.util.ArrayList;
 import Comercio.*;
 
 public class Carrito {
-	int id;
-	static int idCarrito = 0;
+	private int id;
 	private LocalDate fecha;
 	private LocalTime hora;
 	private boolean cerrado;
@@ -17,8 +16,8 @@ public class Carrito {
 	ArrayList<ItemCarrito> lstItemCarrito;
 	private Entrega entrega;
 
-	public Carrito(LocalDate fecha, LocalTime hora, Cliente cliente) throws Exception {
-		this.id = ++idCarrito;
+	public Carrito(int id,LocalDate fecha, LocalTime hora, Cliente cliente) throws Exception {
+		this.id = id;
 		this.fecha = fecha;
 		this.hora = hora;
 		this.cerrado = false;
@@ -31,8 +30,8 @@ public class Carrito {
 		return id;
 	}
 
-	public void setId() {
-		this.id = ++idCarrito;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public LocalDate getFecha() {
@@ -91,6 +90,14 @@ public class Carrito {
 		this.entrega = entrega;
 		setCerrado(true);
 	}
+	
+
+	@Override
+	public String toString() {
+		return "Carrito [id=" + id + ", fecha=" + fecha + ", hora=" + hora + ", cerrado=" + cerrado + ", descuento="
+				+ descuento + ", cliente=" + cliente + ", lstItemCarrito=" + lstItemCarrito + ", entrega=" + entrega
+				+ "]\n";
+	}
 
 	/**
 	 * Agrega items al carrito
@@ -98,9 +105,10 @@ public class Carrito {
 	 * @param articuloNuevo articulo a ingresar
 	 * @param cantidad      cantidad de articulos a ingresar
 	 * @return boolean Si se logro agregar el item a la lista
+	 * @throws Exception  si el articulo no existe en el comercio
 	 */
 
-	public boolean agregarlstItemCarritoA(Articulo articuloNuevo, int cantidad) {
+	public boolean agregarlstItemCarritoA(Articulo articuloNuevo, int cantidad) throws Exception {
 		boolean encontrado = false;
 		int i = 0;
 
@@ -109,8 +117,7 @@ public class Carrito {
 			if (lstItemCarrito.get(i).getArticulo().equals(articuloNuevo)) {
 
 				lstItemCarrito.get(i).setCantidad(lstItemCarrito.get(i).getCantidad() + cantidad);
-				System.out.println("Producto existente, " + cantidad + " unidades agregadas " + articuloNuevo
-						+ ". Total:" + lstItemCarrito.get(i).getCantidad());
+				System.out.print("Producto existente, " + cantidad + " unidades agregadas. Total: " + lstItemCarrito.get(i).getCantidad() +". "+ articuloNuevo );
 
 				encontrado = true;
 			}
@@ -118,7 +125,7 @@ public class Carrito {
 		} // SI NO FUE ENCONTRADO LO AGREGA
 		if (!encontrado) {
 
-			System.out.println("Producto no existente, unidades agregadas. " + articuloNuevo);
+			System.out.print("Producto no existente, unidades agregadas. " + articuloNuevo);
 			lstItemCarrito.add(new ItemCarrito(articuloNuevo, cantidad));
 
 			encontrado = true;
@@ -146,14 +153,14 @@ public class Carrito {
 
 				// SI LA CANTIDAD ES LA MISMA REMUEVO, SI ES MENOR LE RESTO
 				if (lstItemCarrito.get(i).getCantidad() == cantidad) {
-					System.out.println("Misma cantidad de articulo, eliminado: " + articuloNuevo);
+					System.out.println("Misma cantidad de articulos, eliminado " + articuloNuevo);
 					lstItemCarrito.remove(lstItemCarrito.get(i));
 					itemRemovido = true;
 				}
 				// SI LA CANTIDAD ES MENOR LA RESTO
 				else if (lstItemCarrito.get(i).getCantidad() > cantidad) {
 					lstItemCarrito.get(i).setCantidad(lstItemCarrito.get(i).getCantidad() - cantidad);
-					System.out.println("Restado articulo " + lstItemCarrito.get(i).getCantidad() + " del carrito");
+					System.out.println("Restado "+articuloNuevo + " del carrito");
 
 					itemRemovido = true;
 				}
@@ -282,7 +289,8 @@ public class Carrito {
 
 		} else {
 			// agregar turno disponible
-
+			
+			
 			// envio el resultado sin envio
 			System.out.println("Retira por local.");
 
@@ -307,6 +315,7 @@ public class Carrito {
 			throw new Exception("Ya existe una entrega con envio");
 		}
 		setEntrega(new RetiroLocal(fecha, efectivo, horaEntrega));
+		
 
 	}
 

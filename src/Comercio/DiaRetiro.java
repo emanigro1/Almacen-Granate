@@ -3,15 +3,15 @@ package Comercio;
 import java.time.LocalTime;
 
 public class DiaRetiro {
-	static int idDiaRetiro=0;
+
 	private int id;
 	private int diaSemana;
 	private LocalTime horaDesde;
 	private LocalTime horaHasta;
 	private int intervalo;
 
-	public DiaRetiro(int diaSemana, LocalTime horaDesde, LocalTime horaHasta, int intervalo) {
-		this.id = ++idDiaRetiro;
+	public DiaRetiro(int id,int diaSemana, LocalTime horaDesde, LocalTime horaHasta, int intervalo) {
+		this.id = id;
 		this.diaSemana = diaSemana;
 		this.horaDesde = horaDesde;
 		this.horaHasta = horaHasta;
@@ -22,8 +22,8 @@ public class DiaRetiro {
 		return id;
 	}
 
-	public void setId() {
-		this.id = ++idDiaRetiro;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public int getDiaSemana() {

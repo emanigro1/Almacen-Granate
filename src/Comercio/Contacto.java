@@ -1,6 +1,11 @@
 package Comercio;
 
 public class Contacto {
+	@Override
+	public String toString() {
+		return "Contacto [email=" + email + ", celular=" + celular + ", ubicacion=" + ubicacion + "]";
+	}
+
 	private String email;
 	private String celular;
 	private Ubicacion ubicacion;
