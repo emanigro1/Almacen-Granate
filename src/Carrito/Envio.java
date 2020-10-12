@@ -5,6 +5,10 @@ import java.time.LocalTime;
 
 import Comercio.Ubicacion;
 
+/**
+ * @author peqe_
+ *
+ */
 public class Envio extends Entrega {
 	private LocalTime horaHasta;
 	private LocalTime horaDesde;
@@ -40,6 +44,10 @@ public class Envio extends Entrega {
 		return costo;
 	}
 	
+	
+	/**
+	 * SETEA COSTO 
+	 */
 	public void setCosto(Ubicacion ubicacionC, double costoFijo, double costoPorKm) {
 		double distancia =  distanciaCoord(ubicacion.getLatitud(), ubicacion.getLongitud(), ubicacionC.getLatitud(), ubicacionC.getLongitud());
 		this.costo = (distancia * costoPorKm) + costoFijo;
@@ -53,8 +61,12 @@ public class Envio extends Entrega {
 		this.ubicacion = ubicacion;
 	}
 	
+
 	
-	
+	/**DEVUELDE LA DISTANCIA ENTRE DOS PUNTOS
+			
+	 * @return 	DISTANCIA:DOUBLE
+	 */
 	public double distanciaCoord(double lat1, double lng1, double lat2, double lng2) {
 		double radioTierra = 6371; //en kilómetros
 		double dLat = Math.toRadians(lat2 - lat1);

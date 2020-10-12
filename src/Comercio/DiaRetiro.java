@@ -1,5 +1,6 @@
 package Comercio;
 
+
 import java.time.LocalTime;
 
 public class DiaRetiro {
@@ -57,6 +58,7 @@ public class DiaRetiro {
 	public void setIntervalo(int intervalo) {
 		this.intervalo = intervalo;
 	}
+	
 	
 	
 	

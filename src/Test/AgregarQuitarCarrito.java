@@ -31,6 +31,7 @@ public class AgregarQuitarCarrito {
 			comercio.agregarLstArticulo( "sal", "6382730434473", 30);
 			comercio.agregarLstArticulo("levadura", "7615596342361", 30);
 			comercio.agregarLstArticulo( "leche", "5752907913932", 30);
+			
 
 			
 			// Creo carrito
@@ -41,6 +42,8 @@ public class AgregarQuitarCarrito {
 			comercio.traerCarritoId(1).agregarlstItemCarritoA(comercio.traerArticuloCod("9659376765214"), 8);
 			comercio.traerCarritoId(1).agregarlstItemCarritoA(comercio.traerArticuloCod("6382730434473"), 1);
 			comercio.traerCarritoId(1).agregarlstItemCarritoA(comercio.traerArticuloCod("7615596342361"), 2);
+			comercio.traerCarritoId(1).agregarlstItemCarritoA(comercio.traerArticuloCod("6382730434473"), 1);
+			comercio.traerCarritoId(1).agregarlstItemCarritoA(comercio.traerArticuloCod("7615596342361"), 3);
 			
 	
 			

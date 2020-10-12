@@ -8,7 +8,8 @@ public class RetiroLocal extends Entrega {
 
 	public RetiroLocal(LocalDate fecha, boolean efectivo,LocalTime horaEntrega) {
 		super(fecha, efectivo);
-		this.horaEntrega=horaEntrega;
+		
+		this.setHoraEntrega(horaEntrega);
 		
 	}
 
@@ -18,6 +19,7 @@ public class RetiroLocal extends Entrega {
 
 	public void setHoraEntrega(LocalTime horaEntrega) {
 		this.horaEntrega = horaEntrega;
+		
 	}
  
 	

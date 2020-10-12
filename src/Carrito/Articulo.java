@@ -36,7 +36,7 @@ public class Articulo {
 
 	public void setCodBarra(String codBarra) throws Exception {
 		if (!validarCodBarras(codBarra)) {
-			throw new Exception("Codigo de barra no validado del articulo");
+			throw new Exception("Codigo de barra no valido.");
 		}
 		this.codBarra = codBarra;
 	}

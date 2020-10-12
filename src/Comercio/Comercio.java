@@ -3,6 +3,7 @@ package Comercio;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 
 import Carrito.Articulo;
 import Carrito.Carrito;
@@ -11,6 +12,14 @@ import Carrito.Envio;
 import Carrito.RetiroLocal;
 import Carrito.ItemCarrito;
 
+/**
+ * @author peqe_
+ *
+ */
+/**
+ * @author peqe_
+ *
+ */
 public class Comercio extends Actor {
 	private String nombreComercio;
 	private long cuit;
@@ -114,6 +123,14 @@ public class Comercio extends Actor {
 		this.lstArticulo = lstArticulo;
 	}
 
+	public ArrayList<DiaRetiro> getLstDiaRetiro() {
+		return lstDiaRetiro;
+	}
+
+	public void setLstDiaRetiro(ArrayList<DiaRetiro> lstDiaRetiro) {
+		this.lstDiaRetiro = lstDiaRetiro;
+	}
+
 	public ArrayList<Carrito> getLstCarrito() {
 		return lstCarrito;
 	}
@@ -122,29 +139,39 @@ public class Comercio extends Actor {
 		this.lstCarrito = lstCarrito;
 	}
 
+	// AGREGA OBJETOS A LAS LISTAS
 	public void agregarDiaRetiro(int diaSemana, LocalTime horaDesde, LocalTime horaHasta, int intervalo) {
 
-		lstDiaRetiro.add(new DiaRetiro(idNuevo("diaRetiros"),diaSemana, horaDesde, horaHasta, intervalo));
+		lstDiaRetiro.add(new DiaRetiro(idNuevo("diaRetiros"), diaSemana, horaDesde, horaHasta, intervalo));
 	}
 
 	public void agregarLstArticulo(String nombre, String codBarra, double precio) throws Exception {
 		lstArticulo.add(new Articulo(idNuevo("articulos"), nombre, codBarra, precio));
 	}
+	
+	public void agregarLstCarrito(LocalDate fecha, LocalTime hora, Cliente cliente) throws Exception {
+		lstCarrito.add(new Carrito(idNuevo("carritos"), fecha, hora, cliente));
+	}
+	
+	// instancias de clases relacionadas
 
-	public boolean eliminarArticuloComercio(String codBarra) {
-		int i = 0;
-		boolean encontrado = false;
+	public Cliente nuevoCliente(String email, String celular, double latitud, double longitud, String apellido,
+			String nombre, long dni, char genero) throws Exception {
 
-		while (i < lstArticulo.size() && encontrado == false) {
-			if (lstArticulo.get(i).equals(codBarra)) {
-				lstArticulo.remove(i);
-				encontrado = true;
-			}
-			i++;
-		}
-		return encontrado;
+		return new Cliente(new Contacto(email, celular, new Ubicacion(latitud, longitud)), apellido, nombre, dni,
+				genero);
 	}
 
+	public Contacto nuevoContacto(String email, String celular, Ubicacion ubicacion) {
+		return new Contacto(email, celular, ubicacion);
+	}
+		
+	
+	/** RECIBE UN CODIGO DE BARRAS CON EL CUAL BUSCA UN ARTICULO
+	 * 
+	 * @param codBarra  
+	 * @return ARTICULO 
+	 */
 	public Articulo traerArticuloCod(String codBarra) {
 		Articulo traerArt = null;
 		int i = 0;
@@ -159,10 +186,13 @@ public class Comercio extends Actor {
 		return traerArt;
 	}
 
-	public void agregarLstCarrito(LocalDate fecha, LocalTime hora, Cliente cliente) throws Exception {
-		lstCarrito.add(new Carrito(idNuevo("carritos"),fecha, hora, cliente));
-	}
 
+
+	/** RECIBE UN ID CON EL CUAL TRAE UN CARRITO
+	 * 
+	 * @param id
+	 * @return CARRITO
+	 */
 	public Carrito traerCarritoId(int id) {
 		Carrito traerCarrito = null;
 
@@ -174,21 +204,14 @@ public class Comercio extends Actor {
 		return traerCarrito;
 	}
 
-	// Metodos para instanciar todas la clase relacionadas
 
-	public Cliente nuevoCliente(String email, String celular, double latitud, double longitud, String apellido,
-			String nombre, long dni, char genero) throws Exception {
 
-		return new Cliente(new Contacto(email, celular, new Ubicacion(latitud, longitud)),
-				apellido, nombre, dni, genero);
-
-	}
-
-	public Contacto nuevoContacto(String email, String celular, Ubicacion ubicacion) {
-		return new Contacto(email, celular, ubicacion);
-	}
-
-	// METODO PARA CALCULAR ID A ARTICULOS, DIA DE RETIROS Y CARRITOS
+	
+	/**	RECIBE UN STRING INDICANDO EN QUE LISTA GENERAR EL ID Y RETORNA UNO NUEVO
+	 * 
+	 * @param LISTA
+	 * @return ID NUEVO
+	 */
 	public int idNuevo(String lista) {
 		int idNuevo = 1;
 		int i = 0;
@@ -230,4 +253,106 @@ public class Comercio extends Actor {
 		return idNuevo;
 	}
 
+
+
+	/** RECIBE UNA FECHA Y BUSCA SI HAY DIA DE RETIRO, SI LO ENCUENTRA LO DEVUELVE
+	 * 
+	 * @param FECHA
+	 * @return DIA DE RETIRO 
+	 */
+	public DiaRetiro traerDiaRetiroPorDiaSemana(LocalDate diaSemana) {
+		int diaSemanaNum = diaSemana.getDayOfWeek().getValue();
+		DiaRetiro dia = null;
+		for (DiaRetiro diaRetiro : lstDiaRetiro) {
+			if (diaRetiro.getDiaSemana() == diaSemanaNum) {
+				dia = diaRetiro;
+			}
+		}
+		return dia;
+
+	}
+
+	
+	/** RECIBE UNA FECHA CON LA QUE BUSCA LOS RETIROS DE LOS CARRITOS Y CREA UNA LISTA DE TURNOS OCUPADOS
+	 * 
+	 * @param FECHA 
+	 * @return LISTA CON TURNOS OCUPADOS 
+	 */
+	public ArrayList<Turno> traerTurnosOcupados(LocalDate fecha) {
+		ArrayList<Turno> turnosOcupados = new ArrayList<Turno>();
+
+		for (Carrito carrito : lstCarrito) {
+			if (carrito.getEntrega() != null) {
+				if (carrito.getEntrega().getFecha().equals(fecha) && carrito.getEntrega() instanceof RetiroLocal) {
+					turnosOcupados.add(new Turno(fecha, ((RetiroLocal) carrito.getEntrega()).getHoraEntrega(), true));
+				}
+			}
+		}
+		return turnosOcupados;
+	}
+
+	
+	/** DEVUELVE UNA LISTA CON TURNOS LIBRES RELACIONADA CON LA FECHA PASADA POR PARAMETRO
+	 * 
+	 * @param FECHA 
+	 * @return LISTA CON TURNOS LIBRES
+	 */
+	public ArrayList<Turno> traerTurnosLibres(LocalDate fecha) {
+
+		ArrayList<Turno> turnosLibres = new ArrayList<Turno>();
+		ArrayList<Turno> turnosOcupados = traerTurnosOcupados(fecha);
+
+		DiaRetiro diaRetiro = traerDiaRetiroPorDiaSemana(fecha);
+		LocalTime horaInicio = diaRetiro.getHoraDesde();
+
+		boolean encontrado = false;
+
+		while (horaInicio.isBefore(diaRetiro.getHoraHasta())) { // COMPRUEBA SI LA HORA DE INICIO ES SUPERIO A LA HORA
+			encontrado = false;
+			// MAXIMA HASTA CUANDO SE ERMITE ENTREGAR TURNOS LIBRES
+			for (Turno turnoOcupado : turnosOcupados) {
+				if (turnoOcupado.getHora() == horaInicio) {
+					encontrado = true;
+				}
+			}
+			if (!encontrado) {
+				turnosLibres.add(new Turno(fecha, horaInicio, false)); // Agrego un turno libre con la fecha mandada por
+																		// parametro y la hora praviamente comprobada
+																		// que no supera la hora maxima
+			}
+			horaInicio = horaInicio.plusHours(diaRetiro.getIntervalo()); // LE SUMO EL INTERVALO DE HORAS PARA CADA //
+																			// TURNO
+		}
+		return turnosLibres;
+	}
+
+	
+	/** RECIBE UNA FECHA CON LA CUAL GENERA UNA AGENDA CON TURNOS OCUPADOS Y LIBRES
+	 * 
+	 * @param FECHA	 
+	 * @return LISTA DE AGENDA
+	 */
+	public ArrayList<Turno> generarAgenda(LocalDate fecha) {
+		ArrayList<Turno> agendaCompleta = new ArrayList<Turno>();
+		agendaCompleta.addAll(traerTurnosLibres(fecha));
+		agendaCompleta.addAll(traerTurnosOcupados(fecha));
+		
+		Turno auxiliar = null;
+
+		for (int i = 1; i < agendaCompleta.size(); i++) {
+			for (int j = 0; j < i; j++) {
+				if (agendaCompleta.get(i).getHora().isBefore(agendaCompleta.get(j).getHora())) {
+					auxiliar = agendaCompleta.get(i);
+					agendaCompleta.set(i, agendaCompleta.get(j));
+					agendaCompleta.set(j, auxiliar);
+				}
+			}
+		}
+		return agendaCompleta;
+	}
+	
+	public LocalTime traerHoraRetiro(LocalDate fecha) {
+		ArrayList<Turno> turnosLibres = traerTurnosLibres(fecha);
+	return turnosLibres.get(0).getHora();
+	}
 }

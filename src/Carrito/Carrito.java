@@ -11,19 +11,19 @@ public class Carrito {
 	private LocalDate fecha;
 	private LocalTime hora;
 	private boolean cerrado;
-	private double descuento = 0;
+	private double descuento;
 	private Cliente cliente;
 	ArrayList<ItemCarrito> lstItemCarrito;
 	private Entrega entrega;
 
-	public Carrito(int id,LocalDate fecha, LocalTime hora, Cliente cliente) throws Exception {
+	public Carrito(int id, LocalDate fecha, LocalTime hora, Cliente cliente) throws Exception {
 		this.id = id;
 		this.fecha = fecha;
 		this.hora = hora;
 		this.cerrado = false;
 		this.cliente = cliente;
 		this.lstItemCarrito = new ArrayList<ItemCarrito>();
-
+		this.descuento = 0;
 	}
 
 	public int getId() {
@@ -90,7 +90,6 @@ public class Carrito {
 		this.entrega = entrega;
 		setCerrado(true);
 	}
-	
 
 	@Override
 	public String toString() {
@@ -105,7 +104,7 @@ public class Carrito {
 	 * @param articuloNuevo articulo a ingresar
 	 * @param cantidad      cantidad de articulos a ingresar
 	 * @return boolean Si se logro agregar el item a la lista
-	 * @throws Exception  si el articulo no existe en el comercio
+	 * @throws Exception si el articulo no existe en el comercio
 	 */
 
 	public boolean agregarlstItemCarritoA(Articulo articuloNuevo, int cantidad) throws Exception {
@@ -117,7 +116,7 @@ public class Carrito {
 			if (lstItemCarrito.get(i).getArticulo().equals(articuloNuevo)) {
 
 				lstItemCarrito.get(i).setCantidad(lstItemCarrito.get(i).getCantidad() + cantidad);
-				System.out.print("Producto existente, " + cantidad + " unidades agregadas. Total: " + lstItemCarrito.get(i).getCantidad() +". "+ articuloNuevo );
+
 
 				encontrado = true;
 			}
@@ -125,7 +124,6 @@ public class Carrito {
 		} // SI NO FUE ENCONTRADO LO AGREGA
 		if (!encontrado) {
 
-			System.out.print("Producto no existente, unidades agregadas. " + articuloNuevo);
 			lstItemCarrito.add(new ItemCarrito(articuloNuevo, cantidad));
 
 			encontrado = true;
@@ -160,7 +158,7 @@ public class Carrito {
 				// SI LA CANTIDAD ES MENOR LA RESTO
 				else if (lstItemCarrito.get(i).getCantidad() > cantidad) {
 					lstItemCarrito.get(i).setCantidad(lstItemCarrito.get(i).getCantidad() - cantidad);
-					System.out.println("Restado "+articuloNuevo + " del carrito");
+					System.out.println("Restado del carrito " + articuloNuevo );
 
 					itemRemovido = true;
 				}
@@ -170,7 +168,7 @@ public class Carrito {
 		}
 		if (!itemRemovido) {// SI EL ARTICULO NO EXISTE
 
-			throw new Exception("No existe el articulo " + articuloNuevo + " en el carrito");
+			throw new Exception("No existe el articulo en el carrito " + articuloNuevo );
 		}
 		return itemRemovido;
 	}
@@ -205,7 +203,7 @@ public class Carrito {
 		double precioArticulo = 0;
 		int unidadesConDescuento = 0;
 
-		if (diaDescuento == 5) {
+		if (diaDescuento == LocalDate.now().getDayOfWeek().getValue()) {
 
 			for (ItemCarrito iterador : lstItemCarrito) {
 				// UNA ITERACIÓN POR CADA ITEM DEL CARRITO
@@ -288,9 +286,7 @@ public class Carrito {
 			resultado = calcularTotalCarrito() - this.descuento + ((Envio) getEntrega()).getCosto();
 
 		} else {
-			// agregar turno disponible
-			
-			
+			// agregar turno disponible imprimimos el turno asignado
 			// envio el resultado sin envio
 			System.out.println("Retira por local.");
 
@@ -300,23 +296,23 @@ public class Carrito {
 		return resultado;
 	}
 
+	
+	// 	METODO PARA SETEAR ENTREGA POR ENVIO
 	public void nuevaEntrega(LocalDate fecha, boolean efectivo, LocalTime horaHasta, LocalTime horaDesde,
 			Ubicacion ubicacion, Ubicacion ubicacionC, double costoFijo, double costoPorKm) throws Exception {
 		if (entrega != null) {
 			throw new Exception("Ya existe una entrega con retiro local");
 		}
-		// RETORNA ENVIO NUEVO
+		// setea ENVIO NUEVO
 		setEntrega(new Envio(fecha, efectivo, horaHasta, horaDesde, ubicacion, ubicacionC, costoFijo, costoPorKm));
 	}
 
-	public void nuevaEntrega(LocalDate fecha, boolean efectivo, LocalTime horaEntrega) throws Exception {
+// 	METODO PARA SETEAR ENTREGA POR RETIRO LOCAL
+	public void nuevaEntrega(LocalDate fecha, boolean efectivo,LocalTime horaEntrega) throws Exception {
 
 		if (entrega != null) {
 			throw new Exception("Ya existe una entrega con envio");
 		}
-		setEntrega(new RetiroLocal(fecha, efectivo, horaEntrega));
-		
-
-	}
-
+		setEntrega(new RetiroLocal( fecha,  efectivo, horaEntrega));
+	}	
 }
