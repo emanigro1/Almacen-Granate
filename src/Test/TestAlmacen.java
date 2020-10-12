@@ -18,11 +18,11 @@ public class TestAlmacen {
 
 		try {
 			// INSTANCIO COMERCIO
-			// diaDescuento: 7 - porcentajeDescuentoDia: 100 - porcentajeDescuentoEfectivo: 50
+			// diaDescuento: 1 - porcentajeDescuentoDia: 100 - porcentajeDescuentoEfectivo: 50
 			
 			Comercio comercio = new Comercio(
 					new Contacto("almacengranate", "15151651", new Ubicacion(-38.5545, -58.7396)), "Almacen Granate",
-					30610252334L, 100, 5, 7, 10, 25);
+					30610252334L, 100, 5, 1, 10, 25);
 
 			// Agrego articulos al comercio
 			comercio.agregarLstArticulo("jabón", "1234567890418", 30);

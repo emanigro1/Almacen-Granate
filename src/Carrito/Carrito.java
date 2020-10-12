@@ -199,7 +199,6 @@ public class Carrito {
 	 * @return Descuento aplicado a las segundas unidades
 	 */
 	public double calcularDescuentoDia(int diaDescuento, double porcentajeDescuentoDia) {
-		double descuento = 0;
 		double precioArticulo = 0;
 		int unidadesConDescuento = 0;
 
@@ -210,13 +209,13 @@ public class Carrito {
 				if (iterador.getCantidad() > 1) { // SI LA CANTIDAD DEL ARTICULO DEL ITEM CARRITO ES MÁS DE 1
 					unidadesConDescuento = iterador.getCantidad() / 2; // LAS UNIDADES CON DESCUENTO SERÁN LA MITAD DE
 					precioArticulo = iterador.getArticulo().getPrecio(); // OBTENGO EL PRECIO DEL ARTICULO
-					descuento = descuento + unidadesConDescuento * precioArticulo * porcentajeDescuentoDia / 100;
+					this.descuento = this.descuento + unidadesConDescuento * precioArticulo * porcentajeDescuentoDia / 100;
 					// CALCULO EL DESCUENTO DEL ARTICULO Y LOS SUMO AL ACUMULADOR
 				}
 			}
 		}
 
-		return descuento;
+		return this.descuento;
 	}
 
 	/**

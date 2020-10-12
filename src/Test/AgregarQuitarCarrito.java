@@ -17,11 +17,13 @@ public class AgregarQuitarCarrito {
 	public static void main(String[] args) {
 
 		try {
-			// Creo comercio
+			// INSTANCIO COMERCIO
+			// diaDescuento: 1 - porcentajeDescuentoDia: 100 - porcentajeDescuentoEfectivo: 50
+			
 			Comercio comercio = new Comercio(
 					new Contacto("almacengranate", "15151651", new Ubicacion(-38.5545, -58.7396)), "Almacen Granate",
-					30610252334L, 100, 5, 3, 20, 30);
-			
+					30610252334L, 100, 5, 1, 10, 25);
+
 			// Creo cliente
 			Cliente cliente = comercio.nuevoCliente("emanigro@gmail.com", "53613131", -38.0055, -57.5426, "Nigro",
 					"Emanuel", 30659878L, 'm');					
