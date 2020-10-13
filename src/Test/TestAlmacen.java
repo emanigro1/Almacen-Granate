@@ -2,15 +2,8 @@ package Test;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 
-import Carrito.Envio;
-
-import Comercio.Cliente;
-import Comercio.Comercio;
-import Comercio.Contacto;
-import Comercio.Turno;
-import Comercio.Ubicacion;
+import Comercio.*;
 
 public class TestAlmacen {
 
@@ -18,7 +11,7 @@ public class TestAlmacen {
 
 		try {
 			// INSTANCIO COMERCIO
-			// diaDescuento: 1 - porcentajeDescuentoDia: 100 - porcentajeDescuentoEfectivo: 50
+			// diaDescuento: 1 - porcentajeDescuentoDia: 10 - porcentajeDescuentoEfectivo: 25
 			
 			Comercio comercio = new Comercio(
 					new Contacto("almacengranate", "15151651", new Ubicacion(-38.5545, -58.7396)), "Almacen Granate",
@@ -98,7 +91,7 @@ public class TestAlmacen {
 					cliente1.getContacto().getUbicacion(), comercio.getContacto().getUbicacion(),
 					comercio.getCostoFijo(), comercio.getCostoPorKm());
 
-			// AGREGO ENTREGA RETIRO AL SEGUNDO CARRITO 2,3,4
+			// AGREGO ENTREGA RETIRO AL CARRITO 2,3,4
 			comercio.traerCarritoId(2).nuevaEntrega(LocalDate.now(), true, LocalTime.of(06, 00));
 			comercio.traerCarritoId(3).nuevaEntrega(LocalDate.now(), true, LocalTime.of(16, 00));
 			comercio.traerCarritoId(4).nuevaEntrega(LocalDate.now(), false, LocalTime.of(12, 00));

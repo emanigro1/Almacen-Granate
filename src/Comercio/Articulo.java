@@ -1,4 +1,6 @@
-package Carrito;
+package Comercio;
+
+
 
 public class Articulo {
 	private int id;

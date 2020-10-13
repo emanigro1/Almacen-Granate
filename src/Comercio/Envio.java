@@ -1,14 +1,11 @@
-package Carrito;
+package Comercio;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 import Comercio.Ubicacion;
 
-/**
- * @author peqe_
- *
- */
+
 public class Envio extends Entrega {
 	private LocalTime horaHasta;
 	private LocalTime horaDesde;

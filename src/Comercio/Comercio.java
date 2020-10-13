@@ -3,23 +3,9 @@ package Comercio;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.List;
 
-import Carrito.Articulo;
-import Carrito.Carrito;
-import Carrito.Entrega;
-import Carrito.Envio;
-import Carrito.RetiroLocal;
-import Carrito.ItemCarrito;
 
-/**
- * @author peqe_
- *
- */
-/**
- * @author peqe_
- *
- */
+
 public class Comercio extends Actor {
 	private String nombreComercio;
 	private long cuit;

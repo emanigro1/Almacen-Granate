@@ -1,9 +1,6 @@
 package Test;
 
-import Carrito.Articulo;
-import Comercio.Comercio;
-import Comercio.Contacto;
-import Comercio.Ubicacion;
+import Comercio.*;
 
 public class TestCodBarra {
 

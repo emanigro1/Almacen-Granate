@@ -1,4 +1,4 @@
-package Carrito;
+package Comercio;
 
 public class ItemCarrito {
 	private Articulo articulo;

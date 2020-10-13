@@ -3,14 +3,8 @@ package Test;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import Carrito.Articulo;
-import Carrito.Carrito;
-import Carrito.ItemCarrito;
-import Comercio.Cliente;
-import Comercio.Comercio;
-import Comercio.Contacto;
-import Comercio.DiaRetiro;
-import Comercio.Ubicacion;
+import Comercio.*;
+
 
 public class AgregarQuitarCarrito {
 
