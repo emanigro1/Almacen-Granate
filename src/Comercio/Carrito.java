@@ -13,7 +13,7 @@ public class Carrito {
 	private boolean cerrado;
 	private double descuento;
 	private Cliente cliente;
-	ArrayList<ItemCarrito> lstItemCarrito;
+	private ArrayList<ItemCarrito> lstItemCarrito;
 	private Entrega entrega;
 
 	public Carrito(int id, LocalDate fecha, LocalTime hora, Cliente cliente) throws Exception {
